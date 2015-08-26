@@ -1,0 +1,5 @@
+name = Update cart
+description = "Add custom functions to the cart"
+core = 7.x
+package = Custom
+

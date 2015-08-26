@@ -1,0 +1,101 @@
+body, button, input, select, table, textarea {
+  font-family: "Ubuntu",sans-serif;
+  color: #888;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.clear {
+  clear: both;
+}
+
+ol, ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+#page {
+  margin: 0 auto;
+  padding: 0 0 0;
+  text-align: left;
+}
+
+.block-header {
+  background: url("../images/front_top_bg.jpg") no-repeat center top;
+  background-size: cover;
+  color: #fff;
+  text-align: center;
+  padding: 12.3% 0 15.1%;
+  margin: -110px 0 -78px;
+  float: left;
+  width: 100%;
+}
+
+.block-header .title {
+  font-family: "Arizonia",sans-serif;
+  font-size: 172px;
+  line-height: 172px;
+  margin-bottom: 12px;
+}
+
+.block-header .slog {
+  font-size: 52px;
+  line-height: 52px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 26px;
+}
+
+.block-header .desc {
+  font-size: 18px;
+  font-weight: 300;
+  line-height: 30px;
+}
+
+.page-header{
+  position: fixed;
+  width: 100%;
+  z-index: 200;
+  background: rgba(54,70,76,0.9);
+  padding: 0;
+  box-shadow: 0 0px 12px rgba(0,0,0,0.3);
+  -webkit-box-shadow: 0 0px 12px rgba(0,0,0,0.3);
+}
+
+.container {
+  margin-right: auto;
+  margin-left: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.page-header-container {
+  position: relative;
+  margin: 0 -20px;
+  padding: 20px 19px 19px 0;
+  z-index: 3;
+}
+
+.main-menu{
+  padding-left: 203px;
+  padding-right: 147px;
+}
+
+.main-nav {
+  padding: 22px 0 0;
+  display: block;
+}
+.main-nav a{
+  font-size: 14px;
+  display: block;
+  text-decoration: none;
+  position: relative;
+  padding: 0;
+  text-transform: uppercase;
+  color: #bceded;
+}
+.main-nav a:hover, .main-nav a.active{
+  color: #fff;
+}
+.main-nav li{
+  float: left;
+}

@@ -1,0 +1,19 @@
+name = BxSlider
+description = Integration BxSlider with Formaters.
+dependencies[] = image
+dependencies[] = libraries (>=2.x)
+dependencies[] = jquery_update
+
+files[] = bxslider.css
+
+version = 7.x-1.x-dev
+core = 7.x
+
+
+
+; Information added by Drupal.org packaging script on 2014-09-06
+version = "7.x-1.0"
+core = "7.x"
+project = "bxslider"
+datestamp = "1409999929"
+

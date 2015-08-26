@@ -1,0 +1,118 @@
+<?php
+
+///**
+// *  Implements hook_form_alter().
+// */
+//function update_cart_form_alter(&$form, &$form_state, $form_id) {
+//  if(strpos($form_id, 'views_form_commerce_cart_block_') === 0){
+//    $view = reset($form_state['build_info']['args']);
+//
+//    if (!empty($view->result)) {
+//      // Change the Save button to say Update cart.
+//      $form["wrapper"] = array("#markup" => "<div id='test-ajax'></div>");
+//      $form['actions']['update_cart'] = array(
+//        '#type' => 'submit',
+//        '#value' => t('Update cart'),
+//        '#ajax' => array(
+//          'callback' => 'update_cart_line_item_views_form_submit_ajax',
+//          "wrapper" => "test-ajax", "effect" => "fade",
+//        ),
+//        //'#submit' => 'commerce_cart_line_item_views_form_submit',
+//      );
+//
+//    }
+//  }
+//}
+//
+///**
+// * JS update cart values.
+// */
+//function update_cart_line_item_views_form_submit_ajax($form, &$form_state) {
+//  commerce_cart_line_item_views_form_submit($form, $form_state);
+//
+//  $commands = array();
+//
+//  // Validate count field.
+//  $i = 0;
+//  foreach($form_state['values']['edit_quantity'] as $count_item) {
+//    $i++;
+//    if ($count_item == 0) {
+//
+//      $commands[] = ajax_command_remove("#views-form-commerce-cart-block-default .views-row-$i");
+//    }
+//    elseif($count_item < 0){
+//      $form_state['rebuild'] = TRUE;
+//      drupal_set_message(t('You must specify a positive number for the quantity.'));
+//    }
+//  }
+////  // Count of product changed.
+////  if ($form_state['triggering_element']['#type'] == 'textfield') {
+////    $count = $form_state['values']['wrapper'][$cart_product_id]['count'];
+////    $_SESSION['cart_product_data'][$cart_product_id]['count'] = $count;
+////  }
+////
+////  // Delete button clicked.
+////  elseif ($form_state['triggering_element']['#type'] == 'submit') {
+////    unset($_SESSION['cart_product_data'][$cart_product_id]);
+////    $commands[] = ajax_command_remove("#cart-shopping-cart-wrapper-id-$cart_product_id");
+////    $commands[] = array('command' => 'cart_change_height');
+////  }
+////
+////  // Recalculation cart product count.
+////  $cart_total = cart_get_products_count();
+////  $commands[] = ajax_command_invoke('.block-cart__amount', 'text', array($cart_total));
+////
+////  // Recalculation total price.
+////  $total_price = cart_get_products_total_price($form_state['param_price_field']);
+//  $total_price = $form_state['order']->commerce_order_total['und'][0];
+//  $commands[] = ajax_command_invoke(".line-item-total .line-item-total-raw", 'text', array($total_price['amount']));
+//
+//  $page = array(
+//    '#type' => 'ajax',
+//    '#commands' => $commands,
+//  );
+//
+//  return $page;
+//}
+
+/**
+ * Implements hook_form_FORM_ID_alter(): views_form_commerce_cart_form_default.
+ */
+function update_cart_form_views_form_commerce_cart_form_default_alter(&$form, &$form_state) {
+  $form['#action'] = url('cart');
+
+  // AJAX button "Update cart"
+  $form['actions']['submit']['#name'] = 'update-cart';
+  $form['actions']['submit']['#ajax'] = array(
+    'callback' => 'update_cart_cart_form_ajax_update',
+  );
+
+  // AJAX quantity inputs
+//  foreach (element_children($form['edit_quantity']) as $key) {
+//    $form['edit_quantity'][$key]['#ajax'] = array(
+//      'callback' => '',
+//      'event' => 'keyup',
+//      //'event' => 'change',
+//      'progress' => 'none',
+//      'trigger_as' => array(
+//        'name' => 'update-cart',
+//      )
+//    );
+//  }
+}
+
+/**
+ * AJAX update cart.
+ */
+function update_cart_cart_form_ajax_update($form, &$form_state) {
+  drupal_get_messages();
+  $_POST = array();
+  $order_id = commerce_cart_order_id($GLOBALS['user']->uid);
+  $cart = commerce_embed_view('commerce_cart_form', 'default', array($order_id));
+  return array(
+    '#type' => 'ajax',
+    '#commands' => array(
+      ajax_command_replace('.view-commerce-cart-form', $cart),
+    ),
+  );
+}
