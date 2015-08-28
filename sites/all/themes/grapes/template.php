@@ -1,4 +1,21 @@
 <?php
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function grapes_preprocess_page(&$vars, $hook) {
+  drupal_add_js(drupal_get_path('theme', 'grapes') . '/js/script.js');
+}
+
+
+function grapes_menu_breadcrumb_alter(&$breadcrumb) {
+  // If there's a breadcrumb defined
+  if (!empty($breadcrumb)) {
+    // We'll change the root crumb values
+    $breadcrumb[0]['title'] = 'Главная';
+  }
+}
+
 /**
  * @file
  * Contains the theme's functions to manipulate Drupal's default markup.

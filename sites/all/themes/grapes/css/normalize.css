@@ -354,7 +354,11 @@ nav ol {
   list-style: none;
   list-style-image: none;
 }
-
+ol, ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
 /**
  * Embedded content and figures
  *
@@ -552,4 +556,19 @@ table {
   /* Add vertical rhythm margins. */
   margin-top: 1.5em;
   margin-bottom: 1.5em;
+}
+
+body, button, input, select, table, textarea {
+  font-family: "Ubuntu",sans-serif;
+  color: #888;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.clear {
+  clear: both;
+}
+address {
+  margin-bottom: 20px;
+  font-style: normal;
+  line-height: 1.42857;
 }

@@ -17,7 +17,13 @@
 Drupal.behaviors.my_custom_behavior = {
   attach: function(context, settings) {
 
-    // Place your code here.
+    // Add hover class
+    $('.wrap-product').hover(
+      function(){ $(this).find('.wrap-hidden').addClass('hover') },
+      function(){ $(this).find('.wrap-hidden').removeClass('hover')},
+      function(){ $(this).find('.wrap-hidden').addClass('hover') },
+      function(){ $(this).find('.wrap-hidden').removeClass('hover')}
+    )
 
   }
 };

@@ -13,7 +13,7 @@
     <div class="container">
       <div class="page-header-container">
         <?php if ($logo): ?>
-          <a href="<?php print $front_page; ?>" title="<?php print t('Home'); ?>" rel="home" class="header__logo" id="logo"><img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" class="header__logo-image" /></a>
+          <a href="<?php print $front_page; ?>" title="<?php print 'Главная'; ?>" rel="home" class="header__logo" id="logo"><img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" class="header__logo-image" /></a>
         <?php endif; ?>
 
         <?php if ($main_menu): ?>
@@ -70,14 +70,11 @@
   <div id="main">
 
     <div id="content" class="column" role="main">
-      <?php print render($page['highlighted']); ?>
+
       <?php print $breadcrumb; ?>
-      <a id="main-content"></a>
-      <?php print render($title_prefix); ?>
-      <?php if ($title): ?>
-        <h1 class="page__title title" id="page-title"><?php print $title; ?></h1>
-      <?php endif; ?>
-      <?php print render($title_suffix); ?>
+      <div class="container">
+        <?php print render($page['highlighted']); ?>
+      </div>
       <?php print $messages; ?>
       <?php print render($tabs); ?>
       <?php print render($page['help']); ?>
@@ -108,8 +105,9 @@
     <?php endif; ?>
 
   </div>
-
-  <?php print render($page['footer']); ?>
+  <div class="footer-wrap">
+    <?php print render($page['footer']); ?>
+  </div>
 
 </div>
 

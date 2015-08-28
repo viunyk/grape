@@ -9,8 +9,7 @@
 /* HTML element (SMACSS base) rules */
 @import "normalize.css";
 
-/* Layout rules */
-@import "layouts/responsive.css";
+@import "font-awesome.min.css";
 
 /* Component (SMACSS module) rules */
 @import "components/misc.css";
