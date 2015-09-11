@@ -7,12 +7,25 @@ function grapes_preprocess_page(&$vars, $hook) {
   drupal_add_js(drupal_get_path('theme', 'grapes') . '/js/script.js');
 }
 
-
+/**
+ * Implements hook_menu_breadcrumb_alter.
+ */
 function grapes_menu_breadcrumb_alter(&$breadcrumb) {
   // If there's a breadcrumb defined
   if (!empty($breadcrumb)) {
     // We'll change the root crumb values
-    $breadcrumb[0]['title'] = 'Главная';
+    $breadcrumb[0]['title'] = 'Главная'; // Don't use t() because don't want use multilanguage.
+  }
+}
+
+/**
+ * Implements hook_field_extra_fields_alter.
+ */
+function grapes_field_extra_fields_alter(&$info) {
+  if (isset($info['commerce_product'])) {
+    foreach (array_keys($info['commerce_product']) as $type) {
+      $info['commerce_product'][$type]['display']['sku']['label'] = 'Код продукта'; // Don't use t() because don't want use multilanguage.
+    }
   }
 }
 

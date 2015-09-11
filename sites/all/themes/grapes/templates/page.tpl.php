@@ -54,7 +54,7 @@
           <?php print render($page['highlighted']); ?>
           <a id="main-content"></a>
           <?php print render($title_prefix); ?>
-          <?php if ($title): ?>
+          <?php if ($title && $node->type != 'product_display') : ?>
             <h1 class="page__title title" id="page-title"><?php print $title; ?></h1>
           <?php endif; ?>
           <?php print render($title_suffix); ?>
