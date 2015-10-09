@@ -1,0 +1,25 @@
+<?php
+/**
+ * Implements hook_facetapi_searcher_info()
+ */
+function update_facetapi_facetapi_searcher_info_alter(array &$searcher_info) {
+  foreach ($searcher_info as $key => $value) {
+    if ($value['url processor'] == 'pretty_paths') {
+      $searcher_info[$key]['url processor'] = 'update_facetapi_processor';
+    }
+  }
+}
+
+/**
+ * Implements hook_facetapi_url_processors()
+ */
+function update_facetapi_facetapi_url_processors() {
+  return array(
+    'update_facetapi_processor' => array(
+      'handler' => array(
+        'label' => t('Your module URL processor'),
+        'class' => 'FacetApiUpdatePrettyPaths',
+      ),
+    ),
+  );
+}

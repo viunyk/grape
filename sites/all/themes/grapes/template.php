@@ -5,6 +5,27 @@
  */
 function grapes_preprocess_page(&$vars, $hook) {
   drupal_add_js(drupal_get_path('theme', 'grapes') . '/js/script.js');
+
+  $variables['title_attributes_array']['class'][] = 'page__title';
+  $variables['title_attributes_array']['id'] = 'page-title';
+
+  // Hide titles of some Views
+  if (module_exists('views') && $view = views_get_page_view()) {
+    $views_hide_title = array(
+      'products_grapes : page' => TRUE, // Visually hidden
+      //'name1 : display1' => FALSE, // Physically removed
+    );
+
+    $view_key = $view->name . ' : ' . $view->current_display;
+    if (isset($views_hide_title[$view_key])) {
+      if ($views_hide_title[$view_key]) {
+        $vars['title_attributes_array']['class'][] = 'element-invisible';
+      }
+      else {
+        $vars['title'] = FALSE;
+      }
+    }
+  }
 }
 
 /**
@@ -30,133 +51,67 @@ function grapes_field_extra_fields_alter(&$info) {
 }
 
 /**
- * @file
- * Contains the theme's functions to manipulate Drupal's default markup.
- *
- * Complete documentation for this file is available online.
- * @see https://drupal.org/node/1728096
- */
-
-
-/**
- * Override or insert variables into the maintenance page template.
+ * Returns HTML for the active facet item's count.
  *
  * @param $variables
- *   An array of variables to pass to the theme template.
- * @param $hook
- *   The name of the template being rendered ("maintenance_page" in this case.)
+ *   An associative array containing:
+ *   - count: The item's facet count.
+ *
+ * @ingroup themeable
  */
-/* -- Delete this line if you want to use this function
-function grapes_preprocess_maintenance_page(&$variables, $hook) {
-  // When a variable is manipulated or added in preprocess_html or
-  // preprocess_page, that same work is probably needed for the maintenance page
-  // as well, so we can just re-use those functions to do that work here.
-  grapes_preprocess_html($variables, $hook);
-  grapes_preprocess_page($variables, $hook);
+function grapes_facetapi_count($variables) {
+  return '<span class="count">(' . (int) $variables['count'] . ')</span>';
 }
-// */
 
 /**
- * Override or insert variables into the html templates.
+ * Returns HTML for an active facet item.
  *
  * @param $variables
- *   An array of variables to pass to the theme template.
- * @param $hook
- *   The name of the template being rendered ("html" in this case.)
+ *   An associative array containing the keys 'text', 'path', and 'options'. See
+ *   the l() function for information about these variables.
+ *
+ * @see l()
+ *
+ * @ingroup themeable
  */
-/* -- Delete this line if you want to use this function
-function grapes_preprocess_html(&$variables, $hook) {
-  $variables['sample_variable'] = t('Lorem ipsum.');
+function grapes_facetapi_link_active($variables) {
+  // Sanitizes the link text if necessary.
+  $sanitize = empty($variables['options']['html']);
+  $link_text = ($sanitize) ? check_plain($variables['text']) : $variables['text'];
+  $link_text = '<span class="filter-value">' . $link_text . '</span>';
 
-  // The body tag's classes are controlled by the $classes_array variable. To
-  // remove a class from $classes_array, use array_diff().
-  //$variables['classes_array'] = array_diff($variables['classes_array'], array('class-to-remove'));
+  // Theme function variables fro accessible markup.
+  // @see http://drupal.org/node/1316580
+  $accessible_vars = array(
+    'text' => $variables['text'],
+    'active' => TRUE,
+  );
+
+  // Builds link, passes through t() which gives us the ability to change the
+  // position of the widget on a per-language basis.
+  $replacements = array(
+    '!facetapi_deactivate_widget' => t('Remove This Item'),
+    '!facetapi_accessible_markup' => theme('facetapi_accessible_markup', $accessible_vars),
+  );
+  $variables['text'] = t('!facetapi_deactivate_widget !facetapi_accessible_markup', $replacements);
+  $variables['options']['html'] = TRUE;
+  return $link_text . theme_link($variables);
 }
-// */
 
 /**
- * Override or insert variables into the page templates.
+ * Returns HTML for a sort icon.
  *
  * @param $variables
- *   An array of variables to pass to the theme template.
- * @param $hook
- *   The name of the template being rendered ("page" in this case.)
+ *   An associative array containing:
+ *   - style: Set to either 'asc' or 'desc', this determines which icon to
+ *     show.
  */
-/* -- Delete this line if you want to use this function
-function grapes_preprocess_page(&$variables, $hook) {
-  $variables['sample_variable'] = t('Lorem ipsum.');
-}
-// */
-
-/**
- * Override or insert variables into the node templates.
- *
- * @param $variables
- *   An array of variables to pass to the theme template.
- * @param $hook
- *   The name of the template being rendered ("node" in this case.)
- */
-/* -- Delete this line if you want to use this function
-function grapes_preprocess_node(&$variables, $hook) {
-  $variables['sample_variable'] = t('Lorem ipsum.');
-
-  // Optionally, run node-type-specific preprocess functions, like
-  // grapes_preprocess_node_page() or grapes_preprocess_node_story().
-  $function = __FUNCTION__ . '_' . $variables['node']->type;
-  if (function_exists($function)) {
-    $function($variables, $hook);
+function grapes_tablesort_indicator($variables) {
+  $path = drupal_get_path('theme', 'grapes');
+  if ($variables['style'] == "asc") {
+    return theme('image', array('path' => $path . '/images/arrow-asc.png', 'width' => 24, 'height' => 16, 'alt' => t('sort ascending'), 'title' => t('sort ascending')));
+  }
+  else {
+    return theme('image', array('path' => $path . '/images/arrow-desc.png', 'width' => 24, 'height' => 16, 'alt' => t('sort descending'), 'title' => t('sort descending')));
   }
 }
-// */
-
-/**
- * Override or insert variables into the comment templates.
- *
- * @param $variables
- *   An array of variables to pass to the theme template.
- * @param $hook
- *   The name of the template being rendered ("comment" in this case.)
- */
-/* -- Delete this line if you want to use this function
-function grapes_preprocess_comment(&$variables, $hook) {
-  $variables['sample_variable'] = t('Lorem ipsum.');
-}
-// */
-
-/**
- * Override or insert variables into the region templates.
- *
- * @param $variables
- *   An array of variables to pass to the theme template.
- * @param $hook
- *   The name of the template being rendered ("region" in this case.)
- */
-/* -- Delete this line if you want to use this function
-function grapes_preprocess_region(&$variables, $hook) {
-  // Don't use Zen's region--sidebar.tpl.php template for sidebars.
-  //if (strpos($variables['region'], 'sidebar_') === 0) {
-  //  $variables['theme_hook_suggestions'] = array_diff($variables['theme_hook_suggestions'], array('region__sidebar'));
-  //}
-}
-// */
-
-/**
- * Override or insert variables into the block templates.
- *
- * @param $variables
- *   An array of variables to pass to the theme template.
- * @param $hook
- *   The name of the template being rendered ("block" in this case.)
- */
-/* -- Delete this line if you want to use this function
-function grapes_preprocess_block(&$variables, $hook) {
-  // Add a count to all the blocks in the region.
-  // $variables['classes_array'][] = 'count-' . $variables['block_id'];
-
-  // By default, Zen will use the block--no-wrapper.tpl.php for the main
-  // content. This optional bit of code undoes that:
-  //if ($variables['block_html_id'] == 'block-system-main') {
-  //  $variables['theme_hook_suggestions'] = array_diff($variables['theme_hook_suggestions'], array('block__no_wrapper'));
-  //}
-}
-// */

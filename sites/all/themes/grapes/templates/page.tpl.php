@@ -54,8 +54,12 @@
           <?php print render($page['highlighted']); ?>
           <a id="main-content"></a>
           <?php print render($title_prefix); ?>
-          <?php if ($title && $node->type != 'product_display') : ?>
-            <h1 class="page__title title" id="page-title"><?php print $title; ?></h1>
+          <?php
+          // No show title on product page.
+          if(!empty($node->type) && $node->type == 'product_display') $title = '';
+          ?>
+          <?php if ($title) : ?>
+            <h1 <?php print $title_attributes; ?>><?php print $title; ?></h1>
           <?php endif; ?>
           <?php print render($title_suffix); ?>
           <?php print $messages; ?>
@@ -65,7 +69,19 @@
             <ul class="action-links"><?php print render($action_links); ?></ul>
           <?php endif; ?>
           <?php print render($page['content']); ?>
+          <?php
+          // Render the sidebars to see if there's anything in them.
+          $sidebar_first  = render($page['sidebar_first']);
+          $sidebar_second = render($page['sidebar_second']);
+          ?>
+          <?php if ($sidebar_first || $sidebar_second): ?>
+            <aside class="sidebars">
+              <?php print $sidebar_first; ?>
+              <?php print $sidebar_second; ?>
+            </aside>
+          <?php endif; ?>
           <?php print $feed_icons; ?>
+          <div class="clear"></div>
         </div>
       </div>
 
@@ -74,19 +90,6 @@
         <?php print render($page['navigation']); ?>
 
       </div>
-
-      <?php
-      // Render the sidebars to see if there's anything in them.
-      $sidebar_first  = render($page['sidebar_first']);
-      $sidebar_second = render($page['sidebar_second']);
-      ?>
-
-      <?php if ($sidebar_first || $sidebar_second): ?>
-        <aside class="sidebars">
-          <?php print $sidebar_first; ?>
-          <?php print $sidebar_second; ?>
-        </aside>
-      <?php endif; ?>
 
     </div>
     <div class="footer-wrap">

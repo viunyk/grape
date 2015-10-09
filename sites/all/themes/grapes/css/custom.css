@@ -183,6 +183,10 @@ label{
 .view-product td {
   width: 300px;
 }
+.view-product td{
+  padding: 0 0 30px 0;
+}
+
 .wrap-product{
   margin-left: 15px;
   margin-right: 15px;
@@ -228,6 +232,7 @@ label{
   border: 1px solid #ecebeb;
   border-top: 0;
   padding: 0 20px 20px;
+  z-index: 10;
 }
 .wrap-hidden.hover{
   opacity: 1;
@@ -280,7 +285,7 @@ div.messages.commerce-add-to-cart-confirmation{
   background-color: #404f4d;
   padding: 140px 0 30px;
   position: relative;
-  overflow: hidden;
+  /*overflow: hidden;*/
 }
 .region-footer .block-title{
   color: #fff;
@@ -362,7 +367,7 @@ div.messages.commerce-add-to-cart-confirmation{
   padding: 20px 15000px;
 }
 
-/* Product page */
+/* Product page START*/
 
 .content-column{
   margin-top: 110px;
@@ -544,3 +549,164 @@ div.messages.commerce-add-to-cart-confirmation{
 .node-product-display .vertical-tabs ul.vertical-tabs-list li:last-child{
   border-bottom: solid 1px #ccc;
 }
+
+/* Product page END*/
+
+/* Product list page START*/
+
+.view-products-grapes{
+  float: right;
+  width: 75%;
+}
+.view-products-grapes + .sidebars{
+  float: left;
+  width: 25%;
+}
+.block-facetapi{
+  margin: 0;
+}
+.block-facetapi .block-title{
+  color: #333;
+  font-size: 14px;
+  font-size: 14px;
+  font-weight: bold;
+  font-style: normal;
+  line-height: 1.4;
+  text-rendering: optimizeSpeed;
+  text-transform: uppercase;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  font-weight: normal;
+  margin-bottom: 0px;
+  padding: 7px 10px 7px 24px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #ccc;
+  background-color: #F4F4F4;
+  text-align: left;
+}
+.page-products h1{
+  text-align: center;
+}
+.block-facetapi .item-list{
+  padding: 10px;
+  margin: 0;
+  border-width: 0 1px;
+  border-style: solid;
+  border-color: #ccc;
+}
+.block-facetapi .item-list:last-child{
+  border-width: 0 1px 1px 1px;
+}
+.block-facetapi .item-list a{
+  display: block;
+}
+.view-products-grapes table{
+  margin: 0;
+}
+.block-facetapi .count{
+  color: #A0A0A0;
+}
+a.facetapi-active, .current-search-item a{
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #EDEDED;
+  text-align: center;
+  font: 0/0 a;
+  text-shadow: none;
+  color: transparent;
+  position: relative;
+  float: right;
+}
+a.facetapi-active:hover, .current-search-item a:hover{
+  background-color: #333;
+  border-color: #333;
+}
+a.facetapi-active:after, .current-search-item a:after{
+  display: inline-block;
+  font-family: "FontAwesome";
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translate(0, 0);
+  content: "\f00d";
+  color: #888;
+  line-height: 18px;
+  width: 100%;
+  font-size: 15px;
+}
+a.facetapi-active:hover:after, .current-search-item a:hover:after {
+  color: #FFFFFF;
+  text-decoration: none;
+}
+.current-search-item-reset-filters a{
+  color: #404f4d;
+  font-size: 12px;
+  display: inline;
+  width: 100%;
+  border: none;
+  text-align: left;
+}
+.current-search-item-reset-filters a:hover{
+  background: none;
+  color: #588;
+}
+.current-search-item-reset-filters{
+  margin: 10px 0;
+  padding: 10px 0;
+}
+.current-search-item-reset-filters a:after{
+  display: none;
+}
+.current-search-item-active li{
+  clear: right;
+  margin: 0 0 5px 15px;
+}
+.block-facetapi .item-list li{
+  padding: 5px 0 5px 15px;
+}
+.view-products-grapes .box__title-heading{
+  float: right;
+}
+.view-products-grapes .view-header ul{
+  position: relative;
+  margin: 5px 0;
+}
+.view-products-grapes .view-header li{
+  float: left;
+  padding: 0 10px 0 0;
+}
+.view-products-grapes .view-header li.last{
+  float: none;
+}
+.view-content{
+  margin: 0 10px;
+}
+.view-products-grapes .view-header img{
+  position: absolute;
+  display: block;
+  left: 145px;
+  top: 0px;
+}
+.search-api-sorts a{
+  text-transform: uppercase;
+}
+.search-api-sorts a.active-sort{
+  color: #588;
+}
+.view-products-grapes .view-header{
+  margin: 0 25px;
+}
+.sort-box{
+  margin-top: 10px;
+  margin-bottom: 15px;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  background: none;
+  padding: 5px 0 0 0;
+  clear: both;
+}
+/* Product list page END*/

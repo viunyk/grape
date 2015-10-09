@@ -1,0 +1,47 @@
+Index: sites/all/modules/contrib/search_api_ranges/search_api_ranges.module
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- sites/all/modules/contrib/search_api_ranges/search_api_ranges.module	(date 1429175489000)
++++ sites/all/modules/contrib/search_api_ranges/search_api_ranges.module	(revision )
+@@ -501,6 +501,13 @@
+ function search_api_ranges_generate_ranges_simple($variables, $step) {
+   $element = $variables['element'];
+ 
++  // Fix bug with wrong counted.
++  foreach($element as $key => $one_element){
++    if(stripos($key, '[') !== false){
++      unset($element[$key]);
++    }
++  }
++
+   $params = drupal_get_query_parameters($_GET, array('q', 'page'));
+   $ranges = array();
+ 
+@@ -529,6 +536,13 @@
+ 
+ function search_api_ranges_generate_ranges_advanced($variables, $steps) {
+   $element = $variables['element'];
++
++  // Fix bug with wrong counted.
++  foreach($element as $key => $one_element){
++    if(stripos($key, '[') !== false){
++      unset($element[$key]);
++    }
++  }
+ 
+   // Calculate the min and max of the ranges.
+   $values = array_keys($element);
+
+@@ -547,8 +547,8 @@
+   // Calculate the min and max of the ranges.
+   $values = array_keys($element);
+   sort($values, SORT_NUMERIC);
+-  $min_all = $values[0];
+-  $max_all = $values[count($values) - 1];
++  $min_all = isset($values[0]) ? $values[0] : 0;
++  $max_all = isset($values[count($values) - 1]) ? $values[count($values) - 1] : 0;
+
+   $adv_ranges = _search_api_ranges_parse_advanced_range_settings($steps);
+   $tmp_ranges = array();

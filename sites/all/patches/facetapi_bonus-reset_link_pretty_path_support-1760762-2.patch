@@ -1,0 +1,54 @@
+diff --git a/plugins/facetapi/current_search_reset_filters_link.inc b/plugins/facetapi/current_search_reset_filters_link.inc
+index 39a252f..b36e596 100644
+--- a/plugins/facetapi/current_search_reset_filters_link.inc
++++ b/plugins/facetapi/current_search_reset_filters_link.inc
+@@ -31,20 +31,27 @@ class FacetapiBonusCurrentSearchResetFiltersLink extends CurrentSearchItemText {
+     $query = array();
+     $path = '';
+
+-    // Build intesection of all filters. This will remove all filters.
+-    foreach ($adapter->getAllActiveItems() as $item) {
+-      if (empty($query)) {
+-        $query = $this->getQueryString($item, $adapter);
+-      }
+-      else {
+-        $facet_query = $this->getQueryString($item, $adapter);
+-        if (isset($query['f'])) {
+-          $query['f'] = array_intersect($query['f'], $facet_query['f']);
++    $url_processor = $adapter->getUrlProcessor();
++    if ($url_processor instanceof FacetapiUrlProcessorPrettyPaths) {
++      // If we deal with pretty paths: base path is enough.
++      $path = $url_processor->getBasePath();
++    }
++    else {
++      // Build intesection of all filters. This will remove all filters.
++      foreach ($adapter->getAllActiveItems() as $item) {
++        if (empty($query)) {
++          $query = $this->getQueryString($item, $adapter);
++        }
++        else {
++          $facet_query = $this->getQueryString($item, $adapter);
++          if (isset($query['f'])) {
++            $query['f'] = array_intersect($query['f'], $facet_query['f']);
++          }
++        }
++        // Save the path.
++        if (empty($path)) {
++          $path = $this->getFacetPath($item, $adapter);
+         }
+-      }
+-      // Save the path.
+-      if (empty($path)) {
+-        $path = $this->getFacetPath($item, $adapter);
+       }
+     }
+
+@@ -54,7 +61,7 @@ class FacetapiBonusCurrentSearchResetFiltersLink extends CurrentSearchItemText {
+     }
+
+     $variables = array(
+-      'text' => l(token_replace($translated_text, $data), $this->getFacetPath($item, $adapter), array('query' => $query)),
++      'text' => l(token_replace($translated_text, $data), $path, array('query' => $query)),
+       'wrapper' => $this->settings['wrapper'],
+       'element' => $this->settings['element'],
+       'css' => $this->settings['css'],
