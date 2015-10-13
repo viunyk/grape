@@ -1,35 +1,4 @@
 <?php
-
-/**
- * Implements hook_form_FORM_ID_alter(): views_form_commerce_cart_form_default.
- */
-function update_cart_form_views_form_commerce_cart_form_default_alter(&$form, &$form_state) {
-  $form['#action'] = url('cart');
-
-  // AJAX button "Update cart"
-  $form['actions']['submit']['#name'] = 'update-cart';
-  $form['actions']['submit']['#ajax'] = array(
-    'callback' => 'update_cart_cart_form_ajax_update',
-  );
-
-}
-
-/**
- * AJAX update cart.
- */
-function update_cart_cart_form_ajax_update($form, &$form_state) {
-  drupal_get_messages();
-  $_POST = array();
-  $order_id = commerce_cart_order_id($GLOBALS['user']->uid);
-  $cart = commerce_embed_view('commerce_cart_form', 'default', array($order_id));
-  return array(
-    '#type' => 'ajax',
-    '#commands' => array(
-      ajax_command_replace('.view-commerce-cart-form', $cart),
-    ),
-  );
-}
-
 /**
  * Implements hook_form_alter().
  */

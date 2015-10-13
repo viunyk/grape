@@ -6,3 +6,7 @@
   font-family: Ubuntu;
   src: url(../fonts/Ubuntu-C.ttf);
 }
+@font-face {
+  font-family: material-design;
+  src: url(../fonts/material-design/Material-Design-Icons.eot);
+}

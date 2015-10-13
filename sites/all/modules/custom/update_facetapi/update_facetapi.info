@@ -2,6 +2,7 @@ name = Update facetapi
 description = "Add custom functions to the facetapi"
 core = 7.x
 package = Custom
+dependencies[] = facetapi_pretty_paths
 
 files[] = include/url_processor_custom_breadcrumbs.inc
 

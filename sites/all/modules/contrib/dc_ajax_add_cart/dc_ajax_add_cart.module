@@ -203,6 +203,25 @@ function dc_ajax_add_cart_form_alter(&$form, &$form_state, $form_id) {
  * @ingroup callbacks
  */
 function dc_ajax_add_cart_ajax_cart_form(&$form, &$form_state) {
+  if ($errors = form_get_errors()) {
+    unset($_SESSION['messages']['error']);
+    $error_message = implode('<br />', $errors);
+    $content =
+      '<div class="add-to-cart-overlay" id="add-to-cart-overlay"></div>'.
+      '<div class="add-cart-message-wrapper">'.
+      '<a class="add-to-cart-close">'.
+      '<span class="element-invisible">' . t('Close') . '</span>'.
+      '</a>'.
+      '<div class="added-product-message">' . $error_message . '</div>'.
+      '</div>';
+    $commands = array();
+    $commands[] = ajax_command_prepend('body', $content);
+
+    return array(
+      '#type' => 'ajax',
+      '#commands' => $commands,
+    );
+  }
   // Get the current status of commerce cart.
   $commerce_cart = dc_ajax_add_cart_get_commerce_cart_details();
 

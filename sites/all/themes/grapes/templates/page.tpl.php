@@ -35,7 +35,6 @@
                 ),
               )); ?>
             </nav>
-            <div class="clear"></div>
           <?php endif; ?>
 
           <?php print render($page['header']); ?>
@@ -48,7 +47,7 @@
     <div id="main">
 
       <div id="content" class="column content-column" role="main">
-
+        <?php print $messages; ?>
         <div class="container">
           <?php print $breadcrumb; ?>
           <?php print render($page['highlighted']); ?>
@@ -62,7 +61,7 @@
             <h1 <?php print $title_attributes; ?>><?php print $title; ?></h1>
           <?php endif; ?>
           <?php print render($title_suffix); ?>
-          <?php print $messages; ?>
+
           <?php print render($tabs); ?>
           <?php print render($page['help']); ?>
           <?php if ($action_links): ?>

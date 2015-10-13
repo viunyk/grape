@@ -1,0 +1,75 @@
+Index: sites/all/modules/contrib/dc_cart_ajax/dc_cart_ajax.module
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- sites/all/modules/contrib/dc_cart_ajax/dc_cart_ajax.module	(revision )
++++ sites/all/modules/contrib/dc_cart_ajax/dc_cart_ajax.module	(revision )
+@@ -67,35 +67,35 @@
+   return array('#type' => 'ajax', '#commands' => $commands);
+ }
+ 
+-/**
+- * Implements hook_form_FORM_ID_alter().
+- */
+-function dc_cart_ajax_form_commerce_cart_add_to_cart_form_alter(&$form, $form_state, $form_id) {
+-  $form['submit']['#ajax'] = array('callback' => 'dc_cart_ajax_form_commerce_cart_add_to_cart_form_ajax_callback');
+-  $form['submit']['#attached']['js'] = array(drupal_get_path('module', 'dc_cart_ajax') . '/misc/js/dc_cart_ajax.js');
+-  $form['#submit'][] = 'dc_cart_ajax_form_commerce_cart_add_to_cart_form_submit';
+-}
+-
+-/**
+- * Custom submit callback for commerce_cart_add_to_cart_form.
+- * commerce_cart only allow submit the form once. This hack fix it.
+- */
+-function dc_cart_ajax_form_commerce_cart_add_to_cart_form_submit($form, &$form_state) {
+-  $line_item = $form_state['build_info']['args'][0];
+-  $form_state['line_item'] = $line_item;
+-}
+-
+-/**
+- * Ajax callback for commerce_cart_add_to_cart_form.
+- * @see dc_cart_ajax_form_commerce_cart_add_to_cart_form_alter().
+- */
+-function dc_cart_ajax_form_commerce_cart_add_to_cart_form_ajax_callback($form, &$form_state, $form_id) {
+-  $commands[] = array(
+-    'command' => 'dc_cart_ajax_add_to_cart_form',
+-    'message' => theme('status_messages'),
+-    'form-id' => str_replace('_', '-', $form['#form_id']),
+-    'line-item' => $form_state['line_item'],
+-    'form_state' => $form_state,
+-  );
+-  return array('#type' => 'ajax', '#commands' => $commands);
+-}
++///**
++// * Implements hook_form_FORM_ID_alter().
++// */
++//function dc_cart_ajax_form_commerce_cart_add_to_cart_form_alter(&$form, $form_state, $form_id) {
++//  $form['submit']['#ajax'] = array('callback' => 'dc_cart_ajax_form_commerce_cart_add_to_cart_form_ajax_callback');
++//  $form['submit']['#attached']['js'] = array(drupal_get_path('module', 'dc_cart_ajax') . '/misc/js/dc_cart_ajax.js');
++//  $form['#submit'][] = 'dc_cart_ajax_form_commerce_cart_add_to_cart_form_submit';
++//}
++//
++///**
++// * Custom submit callback for commerce_cart_add_to_cart_form.
++// * commerce_cart only allow submit the form once. This hack fix it.
++// */
++//function dc_cart_ajax_form_commerce_cart_add_to_cart_form_submit($form, &$form_state) {
++//  $line_item = $form_state['build_info']['args'][0];
++//  $form_state['line_item'] = $line_item;
++//}
++//
++///**
++// * Ajax callback for commerce_cart_add_to_cart_form.
++// * @see dc_cart_ajax_form_commerce_cart_add_to_cart_form_alter().
++// */
++//function dc_cart_ajax_form_commerce_cart_add_to_cart_form_ajax_callback($form, &$form_state, $form_id) {
++//  $commands[] = array(
++//    'command' => 'dc_cart_ajax_add_to_cart_form',
++//    'message' => theme('status_messages'),
++//    'form-id' => str_replace('_', '-', $form['#form_id']),
++//    'line-item' => $form_state['line_item'],
++//    'form_state' => $form_state,
++//  );
++//  return array('#type' => 'ajax', '#commands' => $commands);
++//}

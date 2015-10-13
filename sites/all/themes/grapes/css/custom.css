@@ -549,7 +549,12 @@ div.messages.commerce-add-to-cart-confirmation{
 .node-product-display .vertical-tabs ul.vertical-tabs-list li:last-child{
   border-bottom: solid 1px #ccc;
 }
-
+div.messages.commerce-add-to-cart-confirmation{
+  z-index: 1002;
+}
+div.commerce_add_to_cart_confirmation_overlay{
+  z-index: 1001;
+}
 /* Product page END*/
 
 /* Product list page START*/
@@ -710,3 +715,15 @@ a.facetapi-active:hover:after, .current-search-item a:hover:after {
   clear: both;
 }
 /* Product list page END*/
+
+/*Product cart START*/
+.add-cart-message-wrapper{
+  top: 50%;
+}
+.header__region{
+  clear: none;
+}
+.main-menu{
+  float: left;
+}
+/*Product cart END*/
