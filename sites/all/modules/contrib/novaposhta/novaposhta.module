@@ -1,0 +1,257 @@
+<?php
+/**
+ * @file
+ * Basic module definition file.
+ */
+
+/**
+ * Implements hook_menu().
+ */
+function novaposhta_menu() {
+  $items = [];
+  $items['admin/config/novaposhta'] = [
+    'title'             => 'NovaPoshta',
+    'description'       => 'Configure the Nova Poshta.',
+    'page callback'     => 'drupal_get_form',
+    'page arguments'    => ['novaposhta_settings_form'],
+    'access arguments'  => ['administer site configuration'],
+    'file'              => 'admin/novaposhta.admin.inc',
+    'file_path'         => drupal_get_path('module', 'novaposhta'),
+  ];
+  $items['admin/config/novaposhta/settings'] = [
+    'title'             => 'NovaPoshta',
+    'access arguments'  => ['administer site configuration'],
+    'type'              => MENU_DEFAULT_LOCAL_TASK,
+  ];
+  $items['admin/config/novaposhta/sync'] = [
+    'title'             => 'Sync NovaPoshta data',
+    'description'       => 'Sync/update the NovaPoshta data from the service.',
+    'page callback'     => 'drupal_get_form',
+    'page arguments'    => ['novaposhta_batch_form'],
+    'access arguments'  => ['administer site configuration'],
+    'type'              => MENU_LOCAL_TASK,
+  ];
+  return $items;
+}
+
+/**
+ * Batch form for synchronizing the data with the NovaPoshta service.
+ *
+ * @param array $form
+ *   Drupal form array.
+ * @param array $form_state
+ *   Drupal form state array.
+ *
+ * @return mixed
+ *   Drupal render-able form array.
+ */
+function novaposhta_batch_form($form, &$form_state) {
+  $form['novaposhta_batch'] = [
+    '#type'  => 'fieldset',
+    '#title' => t('Sync NovaPoshta data'),
+  ];
+  $form['novaposhta_batch']['tables_rows_count'] = [
+    '#type'   => 'markup',
+    '#markup' => _novaposhta_get_table(),
+  ];
+  $form['novaposhta_batch']['clear'] = [
+    '#type'   => 'submit',
+    '#value'  => t('Clear data'),
+    '#submit' => ['_novaposhta_clear_tables'],
+  ];
+  $form['novaposhta_batch']['submit'] = [
+    '#type'   => 'submit',
+    '#value'  => t('Sync data'),
+    '#submit' => ['novaposhta_batch_form_submit'],
+  ];
+  return $form;
+}
+
+/**
+ * Get table with the data counts.
+ */
+function _novaposhta_get_table() {
+  $table_markup  = '<h2>' . t('Tables rows count:') . '</h2>';
+  $table_markup .= '<div class="cnp_tables_rows_count" style="width:0;">';
+  $table_markup .= _novaposhta_get_counts_table(_novaposhta_tables_counts());
+  $table_markup .= '</div>';
+  return $table_markup;
+}
+
+/**
+ * Get rendered table HTML.
+ *
+ * @param array $counts
+ *   Counts array.
+ *
+ * @return string
+ *   Rendered HTML.
+ */
+function _novaposhta_get_counts_table($counts) {
+  $rows = [];
+  foreach ($counts as $count) {
+    $rows[0][] = $count;
+  }
+  return theme('table',
+    [
+      'header' => [t('Cities:'), t('Warehouses:')],
+      'rows'   => $rows,
+    ]
+  );
+}
+
+/**
+ * Get counts of rows in novaposhta's db tables.
+ *
+ * @return array
+ *   Counts array.
+ */
+function _novaposhta_tables_counts() {
+  $counts = [
+    'novaposhta_cities'     => 0,
+    'novaposhta_warehouses' => 0,
+  ];
+  foreach ($counts as $name => &$count) {
+    $count = db_query("SELECT COUNT(*) FROM $name")->fetchField();
+  }
+  return $counts;
+}
+
+/**
+ * NovaPoshta batch form submit callback.
+ *
+ * @param array $form
+ *   Drupal form array.
+ * @param array $form_state
+ *   Drupal form state array.
+ */
+function novaposhta_batch_form_submit($form, &$form_state) {
+  $operations = [['novaposhta_prepare_import', []]];
+  foreach (_novaposhta_get_all_cities() as $city) {
+    if (!empty($city)) {
+      $operations[] = ['novaposhta_batch_sync_data', [$city]];
+    }
+  }
+  $batch = [
+    'operations'        => $operations,
+    'finished'          => 'novaposhta_batch_sync_data_finished',
+    'title'             => t('NovaPoshta importing'),
+    'init_message'      => t('Connecting to the NovaPoshta service...'),
+    'progress_message'  => t('City @current out of @total.'),
+    'error_message'     => t('Found some error here.'),
+  ];
+  batch_set($batch);
+}
+
+/**
+ * Get all cities per page.
+ *
+ * @return array
+ *   Cities array.
+ */
+function _novaposhta_get_all_cities() {
+  $cities = [];
+  $client = new \Drupal\novaposhta\NovaPoshtaClient();
+  for ($i = 1; $i == $i; $i++) {
+    $response = $client->getCities(['Page' => $i]);
+    if (empty($response)) {
+      break;
+    }
+    $cities += $response;
+  }
+  return $cities;
+}
+
+/**
+ * Operation for clearing old data from the novaposhta tables.
+ *
+ * @param array &$context
+ *   Context array.
+ */
+function novaposhta_prepare_import(&$context) {
+  _novaposhta_clear_tables();
+  $context['message'] = t('Cleared NovaPoshta tables.');
+}
+
+/**
+ * Truncate novaposhta tables.
+ */
+function _novaposhta_clear_tables() {
+  db_truncate('novaposhta_cities')->execute();
+  db_truncate('novaposhta_warehouses')->execute();
+}
+
+/**
+ * Batch operation for importing a NovaPoshta data to the DB tables.
+ *
+ * @param array $city
+ *   City data array.
+ * @param array &$context
+ *   Context array.
+ */
+function novaposhta_batch_sync_data($city, &$context) {
+  $data = [];
+  $client = new \Drupal\novaposhta\NovaPoshtaClient();
+  $unserialized_fields = [
+    'description',
+    'description_ru',
+    'city_id',
+    'area_id',
+    'warehouse_id',
+    'department_type_id',
+  ];
+  foreach ($city as $field_name => $field) {
+    if (!in_array($field_name, $unserialized_fields)) {
+      $data[$field_name] = $field;
+    }
+  }
+  $fields = [
+    'city_id'         => $city['city_id'],
+    'area_id'         => $city['area_id'],
+    'description'     => $city['description'],
+    'description_ru'  => $city['description_ru'],
+    'city_data'       => serialize($data),
+  ];
+  // Insert city into the database.
+  db_insert('novaposhta_cities')->fields($fields)->execute();
+  // Warehouses of current city handle.
+  $warehouses = $client->getWarehouses($city['city_id']);
+  foreach ($warehouses as $warehouse) {
+    $data = [];
+    $unserialized_fields = array_slice($unserialized_fields, 2);
+    foreach ($warehouse as $field_name => $field) {
+      if (!in_array($field_name, $unserialized_fields)) {
+        $data[$field_name] = $field;
+      }
+    }
+    $fields = [
+      'warehouse_id'        => $warehouse['warehouse_id'],
+      'city_id'             => $warehouse['city_id'],
+      'department_type_id'  => $warehouse['department_type_id'],
+      'warehouse_data'      => serialize($data),
+    ];
+    // Insert each warehouse into the database.
+    db_insert('novaposhta_warehouses')->fields($fields)->execute();
+  }
+  $context['results'][] = $city['description'];
+  $context['message'] = 'Updated data for <em><b>' . $city['description'] . '</b></em> and it\'s warehouses';
+}
+
+/**
+ * Batch API finished callback.
+ *
+ * @param bool $success
+ *   Success value(TRUE/FALSE).
+ * @param array $results
+ *   Results array.
+ * @param array $operations
+ *   Operations array.
+ */
+function novaposhta_batch_sync_data_finished($success, $results, $operations) {
+  if ($success) {
+    drupal_set_message(t('Updated data for') . ' ' . count($results) . ' ' . t('cities.'));
+  }
+  else {
+    drupal_set_message(t('Completed with an errors.'), 'error');
+  }
+}

@@ -1,0 +1,113 @@
+<?php
+/**
+ * @file
+ * Install, update and uninstall functions for the NovaPoshta module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function novaposhta_schema() {
+  $schema['novaposhta_cities'] = [
+    'fields'  => [
+      'id' => [
+        'description' => 'The primary identifier.',
+        'type'        => 'serial',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ],
+      'city_id' => [
+        'description' => 'City ID.',
+        'type'        => 'varchar',
+        'length'      => 36,
+        'not null'    => TRUE,
+        'default'     => '',
+      ],
+      'area_id' => [
+        'description' => 'Area ID.',
+        'type'        => 'varchar',
+        'length'      => 36,
+        'not null'    => TRUE,
+        'default'     => '',
+      ],
+      'description' => [
+        'description' => 'Description.',
+        'type'        => 'varchar',
+        'length'      => 128,
+        'not null'    => TRUE,
+        'default'     => '',
+      ],
+      'description_ru' => [
+        'description' => 'Description RU.',
+        'type'        => 'varchar',
+        'length'      => 128,
+        'not null'    => TRUE,
+        'default'     => '',
+      ],
+      'city_data' => [
+        'description' => 'City data as serialised array.',
+        'type'        => 'blob',
+        'not null'    => FALSE,
+        'default'     => NULL,
+      ],
+    ],
+    'primary_key' => ['id'],
+    'indexes'     => ['id' => ['id']],
+    'unique keys' => [
+      'city_id' => ['city_id'],
+    ],
+  ];
+  $schema['novaposhta_warehouses'] = [
+    'fields'  => [
+      'id' => [
+        'description' => 'The primary identifier.',
+        'type'        => 'serial',
+        'unsigned'    => TRUE,
+        'not null'    => TRUE,
+      ],
+      'warehouse_id' => [
+        'description' => 'Warehouse ID.',
+        'type'        => 'varchar',
+        'length'      => 36,
+        'not null'    => TRUE,
+        'default'     => '',
+      ],
+      'city_id' => [
+        'description' => 'City ID.',
+        'type'        => 'varchar',
+        'length'      => 36,
+        'not null'    => TRUE,
+        'default'     => '',
+      ],
+      'department_type_id' => [
+        'description' => 'Department type ID.',
+        'type'        => 'varchar',
+        'length'      => 36,
+        'not null'    => TRUE,
+        'default'     => '',
+      ],
+      'warehouse_data' => [
+        'description' => 'Warehouse data as serialised array.',
+        'type'        => 'blob',
+        'not null'    => FALSE,
+        'default'     => NULL,
+      ],
+    ],
+    'primary_key' => ['id'],
+    'indexes'     => ['id' => ['id']],
+    'unique keys' => [
+      'warehouse_id' => ['warehouse_id'],
+    ],
+  ];
+  return $schema;
+}
+
+/**
+ * Implements hook_uninstall().
+ *
+ * Remove the variables, provided by novaposhta module.
+ */
+function novaposhta_uninstall() {
+  variable_del('novaposhta_api_key');
+  variable_del('novaposhta_test_mode');
+}

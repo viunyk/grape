@@ -3,3 +3,5 @@ description = "Add custom functions to the cart"
 core = 7.x
 package = Custom
 
+scripts[] = js/update_cart.js
+

@@ -1,10 +1,38 @@
 <?php
 /**
+ * Implements hook_init().
+ */
+function update_cart_init() {
+  drupal_add_library('system', 'ui.spinner');
+}
+
+/**
  * Implements hook_form_alter().
  */
 function update_cart_form_alter(&$form, &$form_state, $form_id) {
   if (strpos($form_id, 'commerce_cart_add_to_cart_form_') !== FALSE) {
     $form['quantity']['#title'] = 'Кол-во:';
-    $form['submit']['#value'] = 'Добывить в корзину';
+    $form['submit']['#value'] = 'Добавить в корзину';
+
   }
+  if (strpos($form_id, 'views_form_commerce_cart_form_') === 0) {
+
+
+    $form['actions']['submit']['#value'] = 'Обновить корзину';
+    $form['actions']['submit']['#attributes']['class'][] = 'update_cart_btn';
+    $form['actions']['checkout']['#value'] = 'Оформить заказ';
+    $form['actions']['checkout']['#attributes']['class'][] = 'checkout_btn';
+    foreach($form['edit_quantity'] as $key => $edit_quantity){
+      if(is_array($edit_quantity)){
+        $form['edit_quantity'][$key]['#attributes']['readonly'] = 'readonly';
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function update_cart_menu_alter(&$items) {
+  $items['cart']['title'] = 'Корзина';
 }

@@ -726,4 +726,209 @@ a.facetapi-active:hover:after, .current-search-item a:hover:after {
 .main-menu{
   float: left;
 }
+
+.shopping-cart-link{
+  text-transform: uppercase;
+  width: auto;
+  background: none;
+  margin-right: 6px;
+  margin-left: 16px;
+  position: relative;
+  float: left;
+  height: 44px;
+  color: #888;
+  line-height: 42px;
+  text-align: center;
+}
+.shopping-cart-link .text-icon{
+  font-size: 26px;
+  color: #fff;
+}
+.shopping-cart-link .label{
+  display: none;
+}
+.shopping-cart-link .count{
+  -moz-border-radius: 100%;
+  -webkit-border-radius: 100%;
+  border-radius: 100%;
+  margin: 0px;
+  font-size: 14px;
+  font-weight: 300;
+  color: #fff;
+  position: absolute;
+  left: 18px;
+  top: -7px;
+  width: 23px;
+  height: 23px;
+  background: #fcb28e;
+  line-height: 22px;
+  text-align: center;
+  font-family: "Ubuntu",sans-serif;
+}
+.flaticon-shopping231:before {
+  margin: inherit;
+  font-size: inherit;
+}
+.cart-product .block-cart{
+  display: none;
+}
+.cart-product .block-cart.skip-active{
+  display: block;
+  position: absolute;
+  z-index: 200;
+  top: 40px;
+  right: 0;
+  width: 320px;
+  background: white;
+  border: 0;
+  opacity: 1;
+}
+.cart-product .block-subtitle .close {
+  float: right;
+  display: block;
+  color: #888;
+  text-decoration: none;
+  font-weight: normal;
+  font-size: 14px;
+  position: absolute;
+  top: 0px;
+  right: 5px;
+}
+.cart-product .block-subtitle{
+  font-family: "Ubuntu",sans-serif;
+  font-size: 10px;
+  font-weight: bold;
+  line-height: 1.4;
+  text-align: center;
+  text-transform: uppercase;
+  margin: 0;
+  position: relative;
+}
+.close {
+  font: normal normal normal 14px/1 FontAwesome;
+  text-rendering: auto;
+  text-shadow: 0 1px 0 #fff;
+  opacity: 0.2;
+  filter: alpha(opacity=20);
+  transform: translate(0, 0);
+}
+.close:hover, .close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+.cart-product .minicart-wrapper {
+  clear: both;
+  padding: 10px;
+}
+p.empty{
+  text-align: center;
+  font-size: 15px;
+}
+.view-commerce-cart-form input.delete-line-item{
+  background: url("../images/garbage24.png") no-repeat;
+  width: 32px;
+  padding: 0;
+  height: 32px;
+  font-size: 0;
+  box-shadow: none;
+}
+.view-commerce-cart-form .line-item-total > div{
+  float: right;
+}
+.view-commerce-cart-form .views-table, .view-commerce-cart-form .line-item-summary,
+.view-commerce-cart-form .commerce-line-item-actions{
+  width: 770px;
+  margin: 0 15px;
+}
+.product-name a{
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+.view-commerce-cart-form .views-table h2.product-name{
+  margin: 0;
+}
+.view-commerce-cart-form .views-table th{
+  text-transform: uppercase;
+  font-weight: normal;
+  font-size: 15px;
+}
+.view-commerce-cart-form .views-table td{
+  background-color: #fff;
+  padding: 10px 0;
+}
+form th{
+  border-bottom: 1px solid #ccc;
+}
+h2.product-name a{
+  color: #404f4d;
+}
+h2.product-name a:hover{
+  color: #888;
+}
+.view-commerce-cart-form .product-cart-sku .label {
+  font-weight: 600;
+}
+.view-commerce-cart-form td.views-field-commerce-unit-price,
+.view-commerce-cart-form td.views-field-edit-quantity,
+.view-commerce-cart-form td.views-field-commerce-total{
+  font-size: 15px;
+  padding: 15px 0 10px 0;
+}
+.view-commerce-cart-form .views-field-edit-quantity input{
+  height: 30px;
+  border-radius: 0;
+  margin-bottom: 10px;
+  text-align: center;
+  width: 3.2em;
+}
+.view-commerce-cart-form .line-item-summary{
+  font-size: 18px;
+  padding: 15px 0;
+}
+.view-commerce-cart-form .update_cart_btn{
+  margin: 0 30px 0 0;
+  display: none;
+}
+.view-commerce-cart-form a.ui-spinner-up, .view-commerce-cart-form a.ui-spinner-down{
+  overflow: hidden;
+  background-image: url(../images/plus-button.png);
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  vertical-align: top;
+}
+.view-commerce-cart-form a.ui-spinner-down{
+  background-image: url(../images/minus-button.png);
+}
+.ui-button-text-only .ui-button-text {
+  padding: .4em 1em;
+}
+.ui-button .ui-button-text {
+  display: block;
+  line-height: normal;
+}
+.ui-icon {
+  display: block;
+  text-indent: -99999px;
+  overflow: hidden;
+  background-repeat: no-repeat;
+}
+.ui-icon, .ui-widget-content .ui-icon{
+  background: none;
+}
+
+.ui-widget-content .ui-state-default{
+  border: none;
+  background: none;
+}
+.ui-corner-all{
+  border: none;
+}
 /*Product cart END*/

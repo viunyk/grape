@@ -1,0 +1,53 @@
+Index: sites/all/modules/contrib/dc_cart_ajax/dc_cart_ajax.module
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- sites/all/modules/contrib/dc_cart_ajax/dc_cart_ajax.module	(revision )
++++ sites/all/modules/contrib/dc_cart_ajax/dc_cart_ajax.module	(revision )
+@@ -57,6 +57,38 @@
+     $output = menu_execute_active_handler('cart', FALSE);
+   }
+ 
++    
++  /** 
++   * Get the current status of commerce cart.
++   * Take it from dc_ajax_add_cart module.
++   */
++  $commerce_cart = dc_ajax_add_cart_get_commerce_cart_details();
++
++  // If the user has ordered items.
++  if ($commerce_cart['order']) {
++    // Get the line items in cart with their quantity and total.
++    $line_items = $commerce_cart['wrapper']->commerce_line_items;
++    $quantity = commerce_line_items_quantity($line_items, commerce_product_line_item_types());
++    $total = commerce_line_items_total($line_items);
++
++    $ajax_shopping_cart_content = theme('dc_ajax_shopping_cart', array(
++      'order' => $commerce_cart['order'],
++      'line_items' => $line_items,
++      'quantity' => $quantity,
++      'total' => $total,
++    ));
++    $commands[] = ajax_command_replace('div.ajax-shopping-cart-wrapper', $ajax_shopping_cart_content);
++
++    // Update the contents of shopping cart.
++    $ajax_shopping_cart_teaser_content = theme('dc_ajax_shopping_cart_teaser', array(
++      'order' => $commerce_cart['order'],
++      'quantity' => $quantity,
++      'total' => $total,
++    ));
++    $commands[] = ajax_command_replace('div.ajax-shopping-cart-teaser', $ajax_shopping_cart_teaser_content);
++    $commands[] = ajax_command_replace(
++           '.line-item-summary .line-item-total-raw',
++           commerce_currency_format(
++             $commerce_cart['order']->{commerce_order_total}[LANGUAGE_NONE][0]['amount'],
++             $commerce_cart['order']->{commerce_order_total}[LANGUAGE_NONE][0]['currency_code']
++           )
++         );
++    }
++
++
+   $commands[] = array(
+     'command' => 'dc_cart_ajax',
+     'output'  => $output,

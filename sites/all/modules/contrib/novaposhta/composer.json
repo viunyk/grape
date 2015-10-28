@@ -1,0 +1,30 @@
+{
+  "name": "drupal/novaposhta",
+  "type": "drupal-module",
+  "description": "Allows users to store the NovaPoshta data into the database tables.",
+  "homepage": "http://drupal.org/project/novaposhta",
+  "license": "GPL-2.0",
+  "authors": [
+    {
+      "name": "Vladyslav Moiseienko",
+      "email": "vlmo@drupalway.net",
+      "role": "Project Lead"
+    },
+    {
+      "name": "Valentine Matsveiko",
+      "email": "mve@drupalway.net",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "issues": "http://drupal.org/project/issues/novaposhta"
+  },
+  "require": {
+    "php": ">=5.4",
+    "guzzlehttp/guzzle": "v5.2.0",
+    "guzzlehttp/guzzle-services": "0.5.*"
+  },
+  "require-dev": {
+    "drupalway/nova-poshta-guzzle": "2.*@dev"
+  }
+}

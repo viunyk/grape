@@ -115,3 +115,15 @@ function grapes_tablesort_indicator($variables) {
     return theme('image', array('path' => $path . '/images/arrow-desc.png', 'width' => 24, 'height' => 16, 'alt' => t('sort descending'), 'title' => t('sort descending')));
   }
 }
+
+function grapes_preprocess_dc_ajax_shopping_cart_teaser(&$variables){
+  $cart_link_text = '<span class="flaticon-shopping231 text-icon"></span>'.
+    '<span class="label">' . t('Cart') . '</span>'.
+    '<span class="count">' . $variables['quantity'] . '</span>';
+  if($variables['quantity'] > 0){
+    $variables['cart_link'] = l($cart_link_text, 'cart', array('html' => TRUE, 'attributes' => array('class' => array('shopping-cart-link'))));
+  }else{
+    $variables['cart_link'] = l($cart_link_text, NULL, array('html' => TRUE, 'fragment' => FALSE, 'attributes' => array('class' => array('shopping-cart-link', 'empty-cart'))));
+  }
+
+}
