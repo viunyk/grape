@@ -10,29 +10,70 @@ function update_cart_init() {
  * Implements hook_form_alter().
  */
 function update_cart_form_alter(&$form, &$form_state, $form_id) {
+  // Add to cart.
   if (strpos($form_id, 'commerce_cart_add_to_cart_form_') !== FALSE) {
     $form['quantity']['#title'] = 'Кол-во:';
     $form['submit']['#value'] = 'Добавить в корзину';
 
   }
-  if (strpos($form_id, 'views_form_commerce_cart_form_') === 0) {
-
-
+  // Cart page.
+  if (strpos($form_id, 'views_form_commerce_cart_form_') !== FALSE) {
     $form['actions']['submit']['#value'] = 'Обновить корзину';
     $form['actions']['submit']['#attributes']['class'][] = 'update_cart_btn';
     $form['actions']['checkout']['#value'] = 'Оформить заказ';
     $form['actions']['checkout']['#attributes']['class'][] = 'checkout_btn';
-    foreach($form['edit_quantity'] as $key => $edit_quantity){
-      if(is_array($edit_quantity)){
-        $form['edit_quantity'][$key]['#attributes']['readonly'] = 'readonly';
+    if(!empty($form['edit_quantity'])) {
+      foreach ($form['edit_quantity'] as $key => $edit_quantity) {
+        if (is_array($edit_quantity)) {
+          $form['edit_quantity'][$key]['#attributes']['readonly'] = 'readonly';
+        }
       }
     }
   }
+  // Checkout page
+  if($form_id == 'commerce_checkout_form_checkout'){
+    $form['buttons']['cancel']['#value'] = 'Изменить заказ';
+    $form['buttons']['cancel']['#prefix'] = '';
+    $form['buttons']['cancel']['#attributes']['class'] = array('chekout-go-back');
+    $form['customer_profile_billing']['#title'] = 'Контактные данные';
+    $form['customer_profile_billing']['required']['#markup'] = '<p class="required-description">* - поля обязательные для заполнения</p><div class="clear"></div>';
+    $form['customer_profile_billing']['required']['#weight'] = -1;
+    $form['#attributes']['class'] = array('form-checkout');
+    array_unshift($form['buttons']['continue']['#submit'], 'update_cart_checkout_form_submit_save_email');
+  }
+
+  if($form_id == 'commerce_checkout_form_review'){
+    $form['#attributes']['class'] = array('form-checkout-review');
+    $form['buttons']['back']['#value'] = 'Изменить контактные данные';
+    $form['buttons']['back']['#prefix'] = '';
+    $form['cart_contents']['#title'] = 'Заказ';
+    $form['buttons']['back']['#attributes']['class'] = array('chekout-go-back');
+  }
 }
 
+function update_cart_checkout_form_submit_save_email($form, &$form_state){
+  if(!empty($form_state['values']['customer_profile_billing']['field_email'][LANGUAGE_NONE][0]['value'])) {
+    $form_state['order']->mail = $form_state['values']['customer_profile_billing']['field_email'][LANGUAGE_NONE][0]['value'];
+  }
+}
 /**
  * Implements hook_menu_alter().
  */
 function update_cart_menu_alter(&$items) {
   $items['cart']['title'] = 'Корзина';
 }
+
+/**
+ * Implements hook_commerce_price_formatted_components_alter().
+ */
+function update_cart_commerce_price_formatted_components_alter(&$components, $price, $entity) {
+  $pieces = explode('/',current_path());
+  if(!isset($components['tax|ch_vat']) && $pieces[0] == 'checkout'){
+    $components['commerce_price_formatted_amount']['title'] = 'Общая сумма';
+  }
+}
+
+function update_cart_commerce_cart_order_convert($order_wrapper, $account) {
+  $some = '';
+}
+

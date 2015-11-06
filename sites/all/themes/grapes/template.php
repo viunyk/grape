@@ -116,6 +116,16 @@ function grapes_tablesort_indicator($variables) {
   }
 }
 
+function grapes_preprocess_commerce_checkout_review(&$variables){
+  if(isset($variables['form']['#data']['account'])){
+    unset($variables['form']['#data']['account']);
+  }
+  if(!empty($variables['form']['#data']['customer_profile_billing']['title'])){
+    $variables['form']['#data']['customer_profile_billing']['title'] = 'Контактные данные';
+  }
+  theme_commerce_checkout_review($variables);
+}
+
 function grapes_preprocess_dc_ajax_shopping_cart_teaser(&$variables){
   $cart_link_text = '<span class="flaticon-shopping231 text-icon"></span>'.
     '<span class="label">' . t('Cart') . '</span>'.
