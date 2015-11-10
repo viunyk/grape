@@ -79,7 +79,7 @@
               <?php print $sidebar_second; ?>
             </aside>
           <?php endif; ?>
-          <?php print $feed_icons; ?>
+          <?php //print $feed_icons; ?>
           <div class="clear"></div>
         </div>
       </div>

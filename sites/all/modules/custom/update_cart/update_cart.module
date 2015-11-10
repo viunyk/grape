@@ -49,8 +49,23 @@ function update_cart_form_alter(&$form, &$form_state, $form_id) {
     $form['cart_contents']['#title'] = 'Заказ';
     $form['buttons']['back']['#attributes']['class'] = array('chekout-go-back');
   }
+  if($form_id == 'webform_client_form_11'){
+    $form['#after_build'][] = 'update_cart_captcha_pre_render';
+    $form['required']['#markup'] = '<p class="required-description absolute">* - поля обязательные для заполнения</p>';
+    foreach(array('name', 'email', 'phone', 'comment') as $field_name) {
+      $form['submitted'][$field_name]['#prefix'] = '<div class="field-wrap ' . $field_name . '">';
+      $form['submitted'][$field_name]['#suffix'] = '</div>';
+    }
+  }
 }
 
+/**
+ * Implements hook_captcha().
+ */
+function update_cart_captcha_pre_render($form, &$form_state) {
+  $form['captcha']['captcha_widgets']['captcha_response']['#title'] = 'Защитный код';
+  return $form;
+}
 function update_cart_checkout_form_submit_save_email($form, &$form_state){
   if(!empty($form_state['values']['customer_profile_billing']['field_email'][LANGUAGE_NONE][0]['value'])) {
     $form_state['order']->mail = $form_state['values']['customer_profile_billing']['field_email'][LANGUAGE_NONE][0]['value'];
@@ -72,8 +87,3 @@ function update_cart_commerce_price_formatted_components_alter(&$components, $pr
     $components['commerce_price_formatted_amount']['title'] = 'Общая сумма';
   }
 }
-
-function update_cart_commerce_cart_order_convert($order_wrapper, $account) {
-  $some = '';
-}
-

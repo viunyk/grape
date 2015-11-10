@@ -4,7 +4,7 @@
  * Implements hook_preprocess_page().
  */
 function grapes_preprocess_page(&$vars, $hook) {
-  drupal_add_js(drupal_get_path('theme', 'grapes') . '/js/script.js');
+  //drupal_add_js(drupal_get_path('theme', 'grapes') . '/js/script.js');
 
   $variables['title_attributes_array']['class'][] = 'page__title';
   $variables['title_attributes_array']['id'] = 'page-title';
@@ -135,5 +135,12 @@ function grapes_preprocess_dc_ajax_shopping_cart_teaser(&$variables){
   }else{
     $variables['cart_link'] = l($cart_link_text, NULL, array('html' => TRUE, 'fragment' => FALSE, 'attributes' => array('class' => array('shopping-cart-link', 'empty-cart'))));
   }
+}
 
+/**
+ * Themes an empty shopping cart page.
+ */
+function grapes_commerce_cart_empty_page() {
+
+  return '<div class="cart-empty-page">Корзина сейчас пустая ' . l('Вернуться на главную страницу.', '<front>') . '</div>';
 }

@@ -17,6 +17,13 @@
           $(this).find('.wrap-hidden').removeClass('hover')
         }
       );
+      /* SMOOTH SCROLLIG
+       ========================================================*/
+      $.srSmoothscroll({
+        step: 150,
+        speed: 800
+      });
+
     }
   };
 
