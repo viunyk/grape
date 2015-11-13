@@ -35,7 +35,10 @@ function grapes_menu_breadcrumb_alter(&$breadcrumb) {
   // If there's a breadcrumb defined
   if (!empty($breadcrumb)) {
     // We'll change the root crumb values
-    $breadcrumb[0]['title'] = 'Главная'; // Don't use t() because don't want use multilanguage.
+//    $breadcrumb[0]['title'] = 'Главная'; // Don't use t() because don't want use multilanguage.
+//    if(!empty($breadcrumb[3]) && $breadcrumb[3]['link_path'] == 'search/node/%'){
+//      unset($breadcrumb[3]);
+//    }
   }
 }
 
@@ -144,3 +147,4 @@ function grapes_commerce_cart_empty_page() {
 
   return '<div class="cart-empty-page">Корзина сейчас пустая ' . l('Вернуться на главную страницу.', '<front>') . '</div>';
 }
+

@@ -57,6 +57,17 @@ function update_cart_form_alter(&$form, &$form_state, $form_id) {
       $form['submitted'][$field_name]['#suffix'] = '</div>';
     }
   }
+  if ($form_id == 'search_block_form') {
+    $form['actions']['submit']['#prefix'] = '<button type="submit" class="form-submit-btn">';
+    $form['actions']['submit']['#suffix'] = '</button>';
+    $form['actions']['submit']['#attributes'] = array( 'style' => array( 'display: none' ));
+  }
+  if ($form_id == 'search_form') {
+    $form['basic']['submit']['#prefix'] = '<button type="submit" class="form-submit-btn">';
+    $form['basic']['submit']['#suffix'] = '</button>';
+    $form['basic']['submit']['#attributes'] = array( 'style' => array( 'display: none' ));
+    $form['basic']['keys']['#title'] = '';
+  }
 }
 
 /**
@@ -66,6 +77,10 @@ function update_cart_captcha_pre_render($form, &$form_state) {
   $form['captcha']['captcha_widgets']['captcha_response']['#title'] = 'Защитный код';
   return $form;
 }
+
+/**
+ * Form submit handler for commerce_checkout_form_checkout().
+ */
 function update_cart_checkout_form_submit_save_email($form, &$form_state){
   if(!empty($form_state['values']['customer_profile_billing']['field_email'][LANGUAGE_NONE][0]['value'])) {
     $form_state['order']->mail = $form_state['values']['customer_profile_billing']['field_email'][LANGUAGE_NONE][0]['value'];
@@ -76,6 +91,9 @@ function update_cart_checkout_form_submit_save_email($form, &$form_state){
  */
 function update_cart_menu_alter(&$items) {
   $items['cart']['title'] = 'Корзина';
+  $items['search']['title'] = 'Поиск';
+  $items['search/node']['title'] = 'Контент';
+  $items['search/node/%menu_tail']['title'] = 'Контент';
 }
 
 /**

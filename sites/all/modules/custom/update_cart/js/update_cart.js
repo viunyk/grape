@@ -2,7 +2,7 @@
 
   Drupal.behaviors.update_cart_behavior = {
     attach: function (context, settings) {
-      var EmptyCart = $('.cart-product .empty-cart');
+      var EmptyCart = $('.cart-product .empty-cart', context);
       if(EmptyCart.length == 1 && $('.empty-cart.hide-text').length == 0){
         EmptyCart.addClass('hide-text');
         EmptyCart.parent().append(
@@ -15,9 +15,15 @@
             '</div>' +
           '</div>');
       }
-      EmptyCart.click(function(event){
-        $('#header-cart').toggleClass( "skip-active" );
-        event.preventDefault();
+      EmptyCart.once(function(){
+        $(this).click(function(event){
+          $('#header-cart').toggleClass( "skip-active" );
+          // Hide search popup.
+          $('.search-form_toggle').removeClass( "active" );
+          $('.form-search-wrap').addClass( "js-hide" );
+
+          event.preventDefault();
+        });
       });
 
       $('.block-cart .close').click(function(event){
