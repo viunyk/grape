@@ -28,7 +28,12 @@ a {
 a:hover {
   color: #588;
 }
-
+.products-grid .wrapper-hover, .products-grid .wrapper-hover .wrapper-hover-hiden, a, .list-top ul li a:before, .grid-full>li>a:before, .button, .title-2, .slog-2, span {
+  -webkit-transition: all 0.3s ease;
+  -moz-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
 label{
   display: inline-block;
   font-size: 13px;
@@ -69,6 +74,9 @@ label{
   -moz-box-shadow: 5px 5px 5px 0 rgba(0,0,0,0.08);
   box-shadow: 5px 5px 5px 0 rgba(0,0,0,0.08);
 }
+.form-submit:hover{
+  background: #fcb28e;
+}
 
 .block-header {
   background: url("../images/front_top_bg.jpg") no-repeat center top;
@@ -79,16 +87,17 @@ label{
   margin: -110px 0 -78px;
   float: left;
   width: 100%;
+  text-shadow: 1px 1px #888;
 }
 
-.block-header .title {
-  font-family: "Arizonia",sans-serif;
+.block-header .title, .block-content-home .title {
+  font-family: "Arizonia", "studio-script-ctt", sans-serif;
   font-size: 172px;
   line-height: 172px;
   margin-bottom: 12px;
 }
 
-.block-header .slog {
+.block-header .slog, .block-content-home .slog {
   font-size: 52px;
   line-height: 52px;
   font-weight: bold;
@@ -96,7 +105,7 @@ label{
   margin-bottom: 26px;
 }
 
-.block-header .desc {
+.block-header .desc, .block-content-home .desc {
   font-size: 18px;
   font-weight: 300;
   line-height: 30px;
@@ -264,6 +273,9 @@ label{
   padding-bottom: 18px;
   width: 100%;
 }
+.view-product .form-submit:hover{
+  background: #fcb28e;
+}
 .view-product .fivestar-average-stars .form-item{
   margin: 1.5em auto;
   width: 90px;
@@ -401,6 +413,7 @@ div.messages.commerce-add-to-cart-confirmation{
 }
 .breadcrumb {
   margin: 0 0 15px;
+  text-transform: uppercase;
 }
 
 .commerce-product-sku-label{
@@ -556,6 +569,30 @@ div.messages.commerce-add-to-cart-confirmation{
 div.commerce_add_to_cart_confirmation_overlay{
   z-index: 1001;
 }
+.parallax .block-content-home{
+  /*background: url(../images/box-2.jpg) no-repeat center top;*/
+  /*background-size: cover;*/
+  /*color: #fff;*/
+  /*padding: 12.3% 0 15.1%;*/
+
+  /*width: 100%;*/
+}
+.parallax .block-content-home{
+  background:url(../images/box-2.jpg) 50% 0 no-repeat fixed;
+  color: #fff;;
+  height: 600px;
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+  text-shadow: 1px 1px #888;
+}
+.parallax a:hover{
+  color: #fff;
+}
+.parallax .block-content-home .title{
+  padding: 100px 0 0 0;
+}
+
 /* Product page END*/
 
 /* Product list page START*/
@@ -1024,7 +1061,7 @@ table.checkout-review .pane-title td{
 /*Product cart END*/
 
 /* Basic page START*/
-.node-type-page h1{
+.node-type-page h1,.page-news h1{
   font-size: 18px;
   font-weight: 500;
   color: #404f4d;
@@ -1100,7 +1137,7 @@ h4{
   line-height: 1.2;
   text-align: left;
 }
-.node-type-page .container:first-child{
+.page-node .container:first-child{
   padding-left: 30px;
   padding-right: 30px;
 }
@@ -1340,3 +1377,88 @@ a:focus {
   vertical-align: middle;
   display: table-cell;
 }
+
+/*Article START*/
+
+.group-post-details .clock-o, .group-post-details .fa-user{
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transform: translate(0, 0);
+  margin-right: 3px;
+}
+.group-post-details .clock-o:before {
+  content: "";
+}
+.group-post-details .fa-user:before {
+  content: "";
+}
+.field-name-post-date{
+  margin-right: 12px;
+}
+.group-post-details{
+  padding: 0 0 20px;
+  color: #81858f;
+}
+.node-type-article h1 {
+  font-size: 20px;
+  line-height: 30px;
+  margin: 0px;
+  padding: 0px;
+  text-transform: uppercase;
+  color: #333;
+  font-weight: bold;
+  font-style: normal;
+  text-rendering: optimizeLegibility;
+}
+.node-type-article .field-name-field-image img{
+  float: left;
+  margin: 0 20px 0 0;
+}
+
+.parallax-block{
+  margin: -80px 0 -60px;
+}
+.group-left{
+  float: left;
+  padding: 0 28px 0 0;
+}
+.material-design-clock:before {
+  font-family: "Flaticon";
+  font-size: inherit;
+  font-weight: 400;
+  font-style: normal;
+  content: "\e134";
+  margin-right: 8px;
+  font-size: 26px;
+  vertical-align: sub;
+  color: #cccccc;
+}
+.group-right .field-name-post-date{
+  font-size: 16px;
+  color: #558888;
+}
+.group-right .field-name-title a{
+  font-size: 24px;
+  line-height: 35px;
+  text-transform: uppercase;
+  color: #333333;
+}
+.group-right .field-name-title a:hover{
+  color: #fcb28e;
+}
+.view-news td{
+  padding: 0 15px 30px 15px;
+}
+.page-news .ds-2col > .group-left{
+  width: auto;
+}
+.page-news .ds-2col > .group-right{
+  float: initial;
+  width: auto;
+}
+
+/*Article END*/

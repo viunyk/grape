@@ -68,6 +68,10 @@
             <ul class="action-links"><?php print render($action_links); ?></ul>
           <?php endif; ?>
           <?php print render($page['content']); ?>
+          <?php if(isset($node->type) && $node->type == 'article'): ?>
+            <!-- Put this div tag to the place, where the Comments block will be -->
+            <div id="vk_comments"></div>
+          <?php endif; ?>
           <?php
           // Render the sidebars to see if there's anything in them.
           $sidebar_first  = render($page['sidebar_first']);
@@ -83,7 +87,7 @@
           <div class="clear"></div>
         </div>
       </div>
-
+      <div class="parallax"><?php print render($page['parallax']); ?></div>
       <div id="navigation">
 
         <?php print render($page['navigation']); ?>

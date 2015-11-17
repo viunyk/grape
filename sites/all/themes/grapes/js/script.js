@@ -28,6 +28,10 @@
           event.preventDefault();
         });
       });
+
+      /* Parallax */
+      $('.parallax .block-content-home').parallax("50%", 0.1);
+
     }
   };
 

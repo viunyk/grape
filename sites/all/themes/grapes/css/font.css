@@ -10,3 +10,7 @@
   font-family: material-design;
   src: url(../fonts/material-design/Material-Design-Icons.eot);
 }
+@font-face {
+  font-family: studio-script-ctt;
+  src: url(../fonts/studioscriptctt.ttf);
+}

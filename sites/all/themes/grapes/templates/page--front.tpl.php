@@ -83,7 +83,7 @@
 
       <?php //print $feed_icons; ?>
     </div>
-
+    <div class="parallax"><?php print render($page['parallax']); ?></div>
     <div id="navigation">
 
       <?php print render($page['navigation']); ?>

@@ -2,7 +2,7 @@
   .container {
     width: 1200px;
   }
-  .node-type-page .container {
+  .page-node .container {
     width: 1170px;
   }
 }
