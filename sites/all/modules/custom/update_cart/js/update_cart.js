@@ -15,16 +15,6 @@
             '</div>' +
           '</div>');
       }
-      EmptyCart.once(function(){
-        $(this).click(function(event){
-          $('#header-cart').toggleClass( "skip-active" );
-          // Hide search popup.
-          $('.search-form_toggle').removeClass( "active" );
-          $('.form-search-wrap').addClass( "js-hide" );
-
-          event.preventDefault();
-        });
-      });
 
       $('.block-cart .close').click(function(event){
         $('#header-cart').toggleClass( "skip-active" );

@@ -15,30 +15,30 @@
           <?php if ($logo): ?>
             <a href="<?php print $front_page; ?>" title="<?php print 'Главная'; ?>" rel="home" class="header__logo" id="logo"><img src="<?php print $logo; ?>" alt="<?php print t('Home'); ?>" class="header__logo-image" /></a>
           <?php endif; ?>
+          <div class="skip-links">
+            <?php if ($main_menu): ?>
+              <nav id="main-menu" role="navigation" tabindex="-1" class="main-menu">
+                <?php
+                // This code snippet is hard to modify. We recommend turning off the
+                // "Main menu" on your sub-theme's settings form, deleting this PHP
+                // code block, and, instead, using the "Menu block" module.
+                // @see https://drupal.org/project/menu_block
+                print theme('links__system_main_menu', array(
+                  'links' => $main_menu,
+                  'attributes' => array(
+                    'class' => array('links', 'inline', 'clearfix', 'main-nav', 'responsive-menu'),
+                  ),
+                  'heading' => array(
+                    'text' => t('Main menu'),
+                    'level' => 'h2',
+                    'class' => array('element-invisible'),
+                  ),
+                )); ?>
+              </nav>
+            <?php endif; ?>
 
-          <?php if ($main_menu): ?>
-            <nav id="main-menu" role="navigation" tabindex="-1" class="main-menu">
-              <?php
-              // This code snippet is hard to modify. We recommend turning off the
-              // "Main menu" on your sub-theme's settings form, deleting this PHP
-              // code block, and, instead, using the "Menu block" module.
-              // @see https://drupal.org/project/menu_block
-              print theme('links__system_main_menu', array(
-                'links' => $main_menu,
-                'attributes' => array(
-                  'class' => array('links', 'inline', 'clearfix', 'main-nav'),
-                ),
-                'heading' => array(
-                  'text' => t('Main menu'),
-                  'level' => 'h2',
-                  'class' => array('element-invisible'),
-                ),
-              )); ?>
-            </nav>
-          <?php endif; ?>
-
-          <?php print render($page['header']); ?>
-        </div>
+            <?php print render($page['header']); ?>
+          </div>
       </div>
     </header>
 
@@ -67,11 +67,7 @@
           <?php if ($action_links): ?>
             <ul class="action-links"><?php print render($action_links); ?></ul>
           <?php endif; ?>
-          <?php print render($page['content']); ?>
-          <?php if(isset($node->type) && $node->type == 'article'): ?>
-            <!-- Put this div tag to the place, where the Comments block will be -->
-            <div id="vk_comments"></div>
-          <?php endif; ?>
+
           <?php
           // Render the sidebars to see if there's anything in them.
           $sidebar_first  = render($page['sidebar_first']);
@@ -83,6 +79,13 @@
               <?php print $sidebar_second; ?>
             </aside>
           <?php endif; ?>
+
+          <?php print render($page['content']); ?>
+          <?php if(isset($node->type) && $node->type == 'article'): ?>
+            <!-- Put this div tag to the place, where the Comments block will be -->
+            <div id="vk_comments"></div>
+          <?php endif; ?>
+
           <?php //print $feed_icons; ?>
           <div class="clear"></div>
         </div>

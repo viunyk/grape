@@ -341,10 +341,6 @@ function search_api_ranges_block_slider_view_form($form, &$form_state, $variable
 
   // Get path or facetapi_pretty_paths.
   $path = $variables['target'];
-  if (module_exists('facetapi_pretty_paths')) {
-    $path = request_path();
-    unset($_GET['f']);
-  }
 
   $form['text-range'] = array(
     '#markup' => '<p class="text-range">'
@@ -423,46 +419,24 @@ function search_api_ranges_block_slider_view_form_submit($form, &$form_state) {
     $path = request_path();
     $language = NULL;
   }
-  if (module_exists('facetapi_pretty_paths')) {
-    $exists = FALSE;
-    $split_path = explode('/', $path);
-    foreach ($split_path as $key => $value) {
-      if ($value == $range_field) {
-        $exists = $split_path[$key + 1];
+
+  // Not pretty path logic
+  $query = $range_field . ':' . '[' . $values['range-from'] . ' TO ' . $values['range-to'] . ']';
+
+  $pos = -1;
+  if (isset($params['f'])) {
+    foreach ($params['f'] as $key => $param) {
+      if (strpos($param, $range_field . ':') !== FALSE) {
+        $pos = $key;
       }
     }
+  }
 
-    // Decision: replace existing range or add new
-    $new_range = '[' . $values['range-from'] . ' TO ' . $values['range-to'] . ']';
-    if ($exists) {
-      $path = str_replace($exists, $new_range, $path);
-    }
-    else {
-      $path .= '/' . $range_field . '/' . $new_range;
-    }
-
-    // Unset non-pretty query
-    unset($params['f']);
+  if ($pos != -1) {
+    $params['f'][$pos] = $query;
   }
   else {
-    // Not pretty path logic
-    $query = $range_field . ':' . '[' . $values['range-from'] . ' TO ' . $values['range-to'] . ']';
-
-    $pos = -1;
-    if (isset($params['f'])) {
-      foreach ($params['f'] as $key => $param) {
-        if (strpos($param, $range_field . ':') !== FALSE) {
-          $pos = $key;
-        }
-      }
-    }
-
-    if ($pos != -1) {
-      $params['f'][$pos] = $query;
-    }
-    else {
-      $params['f'][] = $query;
-    }
+    $params['f'][] = $query;
   }
 
   drupal_goto($path, array('query' => array($params), 'language' => $language));

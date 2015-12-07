@@ -17,9 +17,12 @@
 @import "print.css";
 
 @import "font.css";
-@import "style-1200.css";
 @import "material-design/flaticon.css";
 @import "custom.css";
+
+@import "960.css";
+@import "640.css";
+
 
 
 /* SMACSS theme rules */

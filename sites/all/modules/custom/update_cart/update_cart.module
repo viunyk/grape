@@ -14,7 +14,6 @@ function update_cart_form_alter(&$form, &$form_state, $form_id) {
   if (strpos($form_id, 'commerce_cart_add_to_cart_form_') !== FALSE) {
     $form['quantity']['#title'] = 'Кол-во:';
     $form['submit']['#value'] = 'Добавить в корзину';
-
   }
   // Cart page.
   if (strpos($form_id, 'views_form_commerce_cart_form_') !== FALSE) {
@@ -30,25 +29,30 @@ function update_cart_form_alter(&$form, &$form_state, $form_id) {
       }
     }
   }
-  // Checkout page
+  // Checkout page.
   if($form_id == 'commerce_checkout_form_checkout'){
     $form['buttons']['cancel']['#value'] = 'Изменить заказ';
     $form['buttons']['cancel']['#prefix'] = '';
     $form['buttons']['cancel']['#attributes']['class'] = array('chekout-go-back');
+    $form['buttons']['continue']['#suffix'] =
+      '<span class="checkout-processing element-invisible"><div class="throbber">&nbsp;</div></span>';
     $form['customer_profile_billing']['#title'] = 'Контактные данные';
     $form['customer_profile_billing']['required']['#markup'] = '<p class="required-description">* - поля обязательные для заполнения</p><div class="clear"></div>';
     $form['customer_profile_billing']['required']['#weight'] = -1;
     $form['#attributes']['class'] = array('form-checkout');
     array_unshift($form['buttons']['continue']['#submit'], 'update_cart_checkout_form_submit_save_email');
   }
-
+  // Review page.
   if($form_id == 'commerce_checkout_form_review'){
     $form['#attributes']['class'] = array('form-checkout-review');
+    $form['buttons']['continue']['#suffix'] =
+      '<span class="checkout-processing element-invisible"><div class="throbber">&nbsp;</div></span>';
     $form['buttons']['back']['#value'] = 'Изменить контактные данные';
     $form['buttons']['back']['#prefix'] = '';
-    $form['cart_contents']['#title'] = 'Заказ';
     $form['buttons']['back']['#attributes']['class'] = array('chekout-go-back');
+    $form['cart_contents']['#title'] = 'Заказ';
   }
+  // Contact form.
   if($form_id == 'webform_client_form_11'){
     $form['#after_build'][] = 'update_cart_captcha_pre_render';
     $form['required']['#markup'] = '<p class="required-description absolute">* - поля обязательные для заполнения</p>';
@@ -57,11 +61,13 @@ function update_cart_form_alter(&$form, &$form_state, $form_id) {
       $form['submitted'][$field_name]['#suffix'] = '</div>';
     }
   }
+  // Search block.
   if ($form_id == 'search_block_form') {
     $form['actions']['submit']['#prefix'] = '<button type="submit" class="form-submit-btn">';
     $form['actions']['submit']['#suffix'] = '</button>';
     $form['actions']['submit']['#attributes'] = array( 'style' => array( 'display: none' ));
   }
+  // Search page
   if ($form_id == 'search_form') {
     $form['basic']['submit']['#prefix'] = '<button type="submit" class="form-submit-btn">';
     $form['basic']['submit']['#suffix'] = '</button>';

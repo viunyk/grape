@@ -23,8 +23,41 @@
         $(this).click(function(event){
           $('.form-search-wrap').toggleClass( "js-hide" );
           $(this).toggleClass( "active" );
+          $('.block-search').toggleClass( "active" );
           // Hide cart popup.
           $('#header-cart').removeClass( "skip-active" );
+          $('.block-dc-ajax-add-cart').removeClass('active');
+          // Hide menu popup.
+          $('.main-menu').removeClass("active");
+          $('.responsive-menus').removeClass("responsive-toggled");
+
+          event.preventDefault();
+        });
+      });
+      // Menu
+      $('.main-menu', context).once(function(){
+        $(this).click(function(event){
+          $(this).toggleClass( "active" );
+          // Hide cart popup.
+          $('#header-cart').removeClass( "skip-active" );
+          $('.block-dc-ajax-add-cart').removeClass('active');
+          // Hide search popup.
+          $('.search-form_toggle, .block-search').removeClass( "active" );
+          $('.form-search-wrap').addClass( "js-hide" );
+        });
+      });
+      // Cart block.
+      $('.cart-product .empty-cart', context).once(function(){
+        $(this).click(function(event){
+          $('#header-cart').toggleClass( "skip-active" );
+          $('.block-dc-ajax-add-cart').toggleClass('active');
+          // Hide search popup.
+          $('.search-form_toggle, .block-search').removeClass( "active" );
+          $('.form-search-wrap').addClass( "js-hide" );
+          // Hide menu popup.
+          $('.main-menu').removeClass("active");
+          $('.responsive-menus').removeClass("responsive-toggled");
+
           event.preventDefault();
         });
       });

@@ -34,7 +34,7 @@
   <?php if (empty($variables['form']['#block']->subject)): ?>
     <h2 class="element-invisible"><?php print t('Search form'); ?></h2>
   <?php endif; ?>
-  <a class="search-form_toggle" href="#"></a>
+  <a class="search-form_toggle" href="#">Поиск</a>
   <div class="form-search-wrap js-hide">
     <?php print $search_form; ?>
   </div>

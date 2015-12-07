@@ -162,10 +162,6 @@ class SearchApiRangesWidgetUISlider extends FacetapiWidget {
 
     // Get facet path field/alias
     $range_field = $this->facet['field alias'];
-    if (module_exists('facetapi_pretty_paths')) {
-      $processor = new FacetapiUrlProcessorPrettyPaths($this->facet->getAdapter());
-      $range_field = $processor->getFacetPrettyPathsAlias($this->facet->getFacet());
-    };
 
     // Prepare the slider variables and return themed form
     // @see search-api-ranges-slider.tpl.php

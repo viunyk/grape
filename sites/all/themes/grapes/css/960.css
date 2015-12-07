@@ -1,0 +1,20 @@
+﻿@media only screen and (min-width: 640px) and (max-width: 959px) {
+
+  .view-products-grapes,
+  .region-sidebar-first,
+  .view-news .group-left {
+    width: 100%;
+    float: none;
+  }
+
+  .view-product .views-row {
+    width: 33%;
+  }
+  .region-blockgroup-footer .footer-col:first-child{
+    width: 100%;
+  }
+  .region-blockgroup-footer .footer-col{
+    width: 23%;
+  }
+}
+

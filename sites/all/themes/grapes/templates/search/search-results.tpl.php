@@ -29,6 +29,6 @@
   </ol>
   <?php print $pager; ?>
 <?php else : ?>
-  <h2><?php print t('Your search yielded no results');?></h2>
-  <?php print search_help('search#noresults', drupal_help_arg()); ?>
+  <h2><?php print 'Ваш поиск не дал никаких результатов';?></h2>
+  <?php //print search_help('search#noresults', drupal_help_arg()); ?>
 <?php endif; ?>
