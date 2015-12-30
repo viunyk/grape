@@ -176,4 +176,13 @@
 	.form-checkout input.form-text{
 		width: 100%;
 	}
+	.block-header .slog, .block-content-home .slog {
+		font-size: 40px;
+		line-height: 40px;
+	}
+	.block-header .title, .block-content-home .title {
+		font-size: 100px;
+		line-height: 100px;
+		margin: 178px 0 12px;
+	}
 }

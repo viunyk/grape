@@ -5,10 +5,12 @@
       // Add hover class. Need for fiveStars.
       $('.wrap-product').hover(
         function () {
-          $(this).find('.wrap-hidden').addClass('hover')
+          $(this).find('.wrap-hidden').addClass('hover');
+          $(this).addClass('hover');
         },
         function () {
-          $(this).find('.wrap-hidden').removeClass('hover')
+          $(this).find('.wrap-hidden').removeClass('hover');
+          $(this).removeClass('hover');
         }
       );
       /* SMOOTH SCROLLIG.

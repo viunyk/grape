@@ -1,0 +1,16 @@
+--- image.module	2015-11-10 13:37:31.542574300 -0700
++++ image.module	2015-11-10 13:37:06.070574300 -0700
+@@ -1054,6 +1054,14 @@
+     $file_url .= (strpos($file_url, '?') !== FALSE ? '&' : '?') . drupal_http_build_query($token_query);
+   }
+
++  //Create derivated image if not exist
++  if(!file_exists($file_url) && !file_exists($uri)){
++    if(file_exists($path)){
++      $currentStyle = image_style_load($style_name);
++      image_style_create_derivative($currentStyle, $path, $uri);
++    }
++  }
++
+   return $file_url;
+ }
